@@ -1,1 +1,2 @@
-export default function ConferenceFilter() { return null }
+export { ConferenceFilters as default, ConferenceFilters } from './ConferenceFilters';
+

@@ -5,6 +5,8 @@ import type { Conference } from '../../types/conference';
 import { Badge } from '../common/Badge';
 import { formatDate } from '../../utils/formatDate';
 
+import { ConferenceStatusBadge } from './ConferenceStatusBadge';
+
 interface ConferenceCardProps {
   conference: Conference;
   className?: string;
@@ -13,22 +15,6 @@ interface ConferenceCardProps {
 export function ConferenceCard({ conference, className = '' }: ConferenceCardProps) {
   const [imageError, setImageError] = useState(false);
 
-  const getStatusBadge = () => {
-    switch (conference.status) {
-      case 'registration_open':
-        return <Badge variant="success">Registration Open</Badge>;
-      case 'call_for_papers':
-        return <Badge variant="warning">Call For Papers</Badge>;
-      case 'upcoming':
-        return <Badge variant="info">Upcoming</Badge>;
-      case 'ongoing':
-        return <Badge variant="primary">In Session</Badge>;
-      case 'completed':
-        return <Badge variant="neutral">Concluded</Badge>;
-      default:
-        return <Badge variant="neutral">{conference.status}</Badge>;
-    }
-  };
 
   const detailsUrl = `/conferences/${conference.slug || conference.id}`;
 
@@ -51,7 +37,7 @@ export function ConferenceCard({ conference, className = '' }: ConferenceCardPro
         )}
         <div className="az-conference-card__badge-bar">
           <Badge variant="primary">{conference.category}</Badge>
-          {getStatusBadge()}
+          <ConferenceStatusBadge status={conference.status} />
         </div>
       </div>
 

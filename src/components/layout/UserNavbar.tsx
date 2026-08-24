@@ -1,1 +1,5 @@
-export default function UserNavbar() { return null }
+import { Bell, Menu, UserRound } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
+const labels: Record<string, string> = { '/dashboard': 'Dashboard', '/dashboard/profile': 'My Profile', '/dashboard/conferences': 'My Conferences', '/dashboard/registrations': 'Registrations', '/dashboard/abstracts': 'Abstracts', '/dashboard/certificates': 'Certificates', '/dashboard/notifications': 'Notifications', '/dashboard/settings': 'Settings' }
+export default function UserNavbar({ onMenuOpen }: { onMenuOpen: () => void }) { const { user } = useAuth(); const { pathname } = useLocation(); return <header className="az-user-navbar"><button className="az-user-navbar__menu" onClick={onMenuOpen} aria-label="Open navigation"><Menu size={22} /></button><h1>{pathname.startsWith('/dashboard/abstracts/') ? 'Abstract details' : labels[pathname] ?? 'Dashboard'}</h1><div className="az-user-navbar__actions"><Link to="/dashboard/notifications" aria-label="Notifications"><Bell size={19} /></Link><Link to="/dashboard/profile" className="az-user-navbar__profile"><span aria-hidden="true"><UserRound size={18} /></span><strong>{user?.name}</strong></Link></div></header> }

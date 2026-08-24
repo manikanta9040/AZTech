@@ -1,5 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { Button } from '../../components/common/Button'
-import { ROUTES } from '../../constants/routes'
 import { useAuth } from '../../hooks/useAuth'
-export default function Dashboard() { const { user, logout } = useAuth(); const navigate = useNavigate(); const leave = () => { logout(); navigate(ROUTES.login, { replace: true }) }; return <main className="az-dashboard-placeholder"><section><p className="az-auth__eyebrow">AZTech account</p><h1>Welcome, {user?.name}</h1><p>Your AZTech dashboard is coming soon.</p><Button onClick={leave}>Logout</Button></section></main> }
+import { mockRegistrations } from '../../data/registrations'
+import { mockAbstracts } from '../../data/abstracts'
+import { mockCertificates } from '../../data/certificates'
+import { Award, CalendarDays, FileText } from 'lucide-react'
+import { QuickActions, RecentAbstracts, RecentRegistrations, UpcomingConferences, UserStatCard } from '../../components/user/DashboardParts'
+export default function Dashboard() { const { user } = useAuth(); const registrations = mockRegistrations.filter((item) => item.userId === user?.id); const abstracts = mockAbstracts.filter((item) => item.userId === user?.id); const certificates = mockCertificates.filter((item) => item.userId === user?.id); return <><section className="az-user-page__intro"><p className="az-auth__eyebrow">AZTech account</p><h2>Welcome back, {user?.name}</h2><p>Manage your AZTech conferences, registrations and submissions.</p></section><section className="az-user-stats"><UserStatCard title="Registered Conferences" value={registrations.length} icon={CalendarDays} /><UserStatCard title="Upcoming Conferences" value={registrations.filter((item) => item.status === 'CONFIRMED').length} icon={CalendarDays} /><UserStatCard title="Abstracts Submitted" value={abstracts.length} icon={FileText} /><UserStatCard title="Certificates" value={certificates.length} icon={Award} /></section><section className="az-user-grid"><UpcomingConferences conferenceIds={registrations.map((item) => item.conferenceId)} /><RecentRegistrations items={registrations.slice(0, 3)} /><RecentAbstracts items={abstracts.slice(0, 3)} /><QuickActions /></section></> }

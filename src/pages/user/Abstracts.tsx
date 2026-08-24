@@ -1,1 +1,8 @@
-export default function Abstracts() { return null }
+import { Link } from 'react-router-dom'
+import { Badge } from '../../components/common/Badge'
+import { EmptyState } from '../../components/common/EmptyState'
+import { mockAbstracts } from '../../data/abstracts'
+import { mockConferences } from '../../data/conferences'
+import { useAuth } from '../../hooks/useAuth'
+const variant = (status: string) => status === 'APPROVED' ? 'success' : status === 'REJECTED' ? 'error' : status === 'REVISION_REQUIRED' ? 'warning' : 'info' as const
+export default function Abstracts() { const { user } = useAuth(); const items = mockAbstracts.filter((item) => item.userId === user?.id); return <><section className="az-user-page__intro az-user-page__intro--split"><div><p className="az-auth__eyebrow">My Abstracts</p><h2>Abstract submissions</h2><p>Manage your conference research submissions.</p></div><Link className="az-button az-button--primary" to="/dashboard/abstracts/new">Submit Abstract</Link></section>{!items.length ? <EmptyState title="No abstracts yet" description="You haven't submitted any abstracts yet." action={<Link className="az-button az-button--primary" to="/dashboard/abstracts/new">Submit Abstract</Link>} /> : <div className="az-user-table az-user-table--card"><div className="az-user-table__head"><span>Title</span><span>Conference</span><span>Submitted</span><span>Status</span><span>Actions</span></div>{items.map((item) => <div className="az-user-table__row" key={item.id}><Link to={`/dashboard/abstracts/${item.id}`}>{item.title}</Link><span>{mockConferences.find((conference) => conference.id === item.conferenceId)?.title}</span><span>{item.submittedAt}</span><Badge variant={variant(item.status)}>{item.status.replaceAll('_', ' ')}</Badge><Link to={`/dashboard/abstracts/${item.id}`}>View</Link></div>)}</div>}</> }

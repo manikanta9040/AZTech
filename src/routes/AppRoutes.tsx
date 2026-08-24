@@ -21,9 +21,21 @@ import ForgotPassword from '../pages/auth/ForgotPassword';
 import ResetPassword from '../pages/auth/ResetPassword';
 import AdminLogin from '../pages/admin/AdminLogin';
 import UserDashboard from '../pages/user/Dashboard';
+import Profile from '../pages/user/Profile';
+import EditProfile from '../pages/user/EditProfile';
+import MyConferences from '../pages/user/MyConferences';
+import Registrations from '../pages/user/Registrations';
+import RegistrationDetails from '../pages/user/RegistrationDetails';
+import Abstracts from '../pages/user/Abstracts';
+import SubmitAbstract from '../pages/user/SubmitAbstract';
+import AbstractDetails from '../pages/user/AbstractDetails';
+import Certificates from '../pages/user/Certificates';
+import Notifications from '../pages/user/Notifications';
+import Settings from '../pages/user/Settings';
 import AdminDashboard from '../pages/admin/Dashboard';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { AdminRoute } from '../components/auth/AdminRoute';
+import { UserLayout } from '../layouts/UserLayout';
 
 export function AppRoutes() {
   return (
@@ -50,7 +62,20 @@ export function AppRoutes() {
         <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path={ROUTES.adminLogin} element={<AdminLogin />} />
-        <Route path={ROUTES.userDashboard} element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+        <Route path={ROUTES.userDashboard} element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
+          <Route index element={<UserDashboard />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="profile/edit" element={<EditProfile />} />
+          <Route path="conferences" element={<MyConferences />} />
+          <Route path="registrations" element={<Registrations />} />
+          <Route path="registrations/:id" element={<RegistrationDetails />} />
+          <Route path="abstracts" element={<Abstracts />} />
+          <Route path="abstracts/new" element={<SubmitAbstract />} />
+          <Route path="abstracts/:id" element={<AbstractDetails />} />
+          <Route path="certificates" element={<Certificates />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
         <Route path={ROUTES.adminDashboard} element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       </Routes>
     </BrowserRouter>

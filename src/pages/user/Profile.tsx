@@ -1,1 +1,7 @@
-export default function Profile() { return null }
+import { Link } from 'react-router-dom'
+import { Card, CardContent } from '../../components/common/Card'
+import { Button } from '../../components/common/Button'
+import { defaultUserProfile } from '../../data/userProfile'
+import { useAuth } from '../../hooks/useAuth'
+const profileKey = (id: string) => `aztech.profile.${id}`
+export default function Profile() { const { user } = useAuth(); const saved = localStorage.getItem(profileKey(user?.id ?? '')); const profile = saved ? JSON.parse(saved) as typeof defaultUserProfile : { ...defaultUserProfile, id: user?.id ?? defaultUserProfile.id, name: user?.name ?? defaultUserProfile.name, email: user?.email ?? defaultUserProfile.email }; const fields = [['Email', profile.email], ['Phone', profile.phone], ['Organization', profile.organization], ['Job title', profile.jobTitle], ['Location', [profile.city, profile.country].filter(Boolean).join(', ')], ['Areas of interest', profile.interests?.join(', ')], ['LinkedIn', profile.linkedin], ['Website', profile.website]]; return <><section className="az-user-page__intro"><p className="az-auth__eyebrow">My Profile</p><h2>{profile.name}</h2><p>Keep your professional details up to date.</p></section><Card><CardContent className="az-profile"><div className="az-profile__avatar">{profile.name.slice(0, 1)}</div><div><h3>{profile.name}</h3><p>{profile.jobTitle} {profile.organization && `at ${profile.organization}`}</p></div><Link to="/dashboard/profile/edit"><Button>Edit Profile</Button></Link></CardContent><CardContent><p>{profile.biography}</p><dl className="az-profile__details">{fields.map(([term, value]) => value && <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl></CardContent></Card></> }

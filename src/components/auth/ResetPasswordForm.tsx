@@ -1,0 +1,7 @@
+import { useState, type FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '../common/Button'
+import { Input } from '../common/Input'
+import { ROUTES } from '../../constants/routes'
+import { useAuth } from '../../hooks/useAuth'
+export function ResetPasswordForm() { const { resetPassword } = useAuth(); const navigate = useNavigate(); const [password, setPassword] = useState(''); const [confirm, setConfirm] = useState(''); const [error, setError] = useState(''); const submit = async (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); if (password.length < 8) return setError('Password must contain at least 8 characters.'); if (password !== confirm) return setError('Passwords do not match.'); try { await resetPassword({ password, confirmPassword: confirm }); navigate(ROUTES.login, { replace: true, state: { resetSuccess: true } }) } catch (caught) { setError(caught instanceof Error ? caught.message : 'Unable to reset password.') } }; return <form className="az-auth-form" onSubmit={submit} noValidate><Input label="New Password" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} /><Input label="Confirm Password" type="password" autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} />{error && <p className="az-auth-error" role="alert">{error}</p>}<Button type="submit" fullWidth>Reset Password</Button></form> }

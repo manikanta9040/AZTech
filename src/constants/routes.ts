@@ -15,6 +15,9 @@ export const ROUTES = {
   sitemap: '/sitemap',
   login: '/login',
   register: '/register',
-  userDashboard: '/portal',
-  adminDashboard: '/admin',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
+  adminLogin: '/admin/login',
+  userDashboard: '/dashboard',
+  adminDashboard: '/admin/dashboard',
 } as const;

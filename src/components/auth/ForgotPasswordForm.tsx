@@ -1,0 +1,5 @@
+import { useState, type FormEvent } from 'react'
+import { Button } from '../common/Button'
+import { Input } from '../common/Input'
+import { useAuth } from '../../hooks/useAuth'
+export function ForgotPasswordForm() { const { forgotPassword } = useAuth(); const [email, setEmail] = useState(''); const [success, setSuccess] = useState(false); const submit = async (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(email)) return; await forgotPassword(email); setSuccess(true) }; return <form className="az-auth-form" onSubmit={submit} noValidate><Input label="Email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} error={email && !/^\S+@\S+\.\S+$/.test(email) ? 'Please enter a valid email address.' : undefined} />{success && <p className="az-auth-success" role="status">If an account exists with this email, a password reset link has been generated.</p>}<Button type="submit" fullWidth>Send Reset Link</Button></form> }

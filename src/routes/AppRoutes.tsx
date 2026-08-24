@@ -17,8 +17,13 @@ import TermsOfUse from '../pages/public/TermsOfUse';
 import Sitemap from '../pages/public/Sitemap';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import ForgotPassword from '../pages/auth/ForgotPassword';
+import ResetPassword from '../pages/auth/ResetPassword';
+import AdminLogin from '../pages/admin/AdminLogin';
 import UserDashboard from '../pages/user/Dashboard';
 import AdminDashboard from '../pages/admin/Dashboard';
+import { ProtectedRoute } from '../components/auth/ProtectedRoute';
+import { AdminRoute } from '../components/auth/AdminRoute';
 
 export function AppRoutes() {
   return (
@@ -42,8 +47,11 @@ export function AppRoutes() {
         </Route>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.register} element={<Register />} />
-        <Route path={ROUTES.userDashboard} element={<UserDashboard />} />
-        <Route path={ROUTES.adminDashboard} element={<AdminDashboard />} />
+        <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
+        <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
+        <Route path={ROUTES.adminLogin} element={<AdminLogin />} />
+        <Route path={ROUTES.userDashboard} element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+        <Route path={ROUTES.adminDashboard} element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );

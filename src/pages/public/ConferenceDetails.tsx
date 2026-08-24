@@ -1,83 +1,130 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Calendar, MapPin, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import { Badge } from '../../components/common/Badge';
-import { Card, CardContent } from '../../components/common/Card';
+import { ChevronRight } from 'lucide-react';
 import { mockConferences } from '../../data/conferences';
-import { formatDate } from '../../utils/formatDate';
+import {
+  ConferenceHero,
+  ConferenceInfo,
+  AboutConference,
+  ConferenceObjectives,
+  ConferenceTopics,
+  ImportantDates,
+  RegistrationCard,
+  RegistrationTypes,
+  ConferenceSpeakers,
+  ConferenceCommittee,
+  ConferenceProgram,
+  ConferenceVenue,
+  AccommodationSection,
+  ConferenceSponsors,
+  ConferenceGallery,
+  ConferenceFAQ,
+  ConferenceCTA,
+  RelatedConferences,
+  ConferenceNotFound,
+} from '../../components/conference/details';
 
-export default function ConferenceDetails() {
+export function ConferenceDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const conference = mockConferences.find((c) => c.slug === slug || c.id === slug) || mockConferences[0];
+
+  // 1. Dynamic slug resolution (matching slug or id)
+  const conference = mockConferences.find(
+    (c) => c.slug.toLowerCase() === slug?.toLowerCase() || c.id.toLowerCase() === slug?.toLowerCase()
+  );
+
+  // 2. Dynamic page title for SEO
+  useEffect(() => {
+    if (conference) {
+      document.title = `${conference.title} | AZTech`;
+    } else {
+      document.title = 'Conference Not Found | AZTech';
+    }
+
+    return () => {
+      document.title = 'AZTech — Global Conference Management Platform';
+    };
+  }, [conference]);
+
+  // 3. Invalid conference handling
+  if (!conference) {
+    return <ConferenceNotFound slug={slug} />;
+  }
 
   return (
-    <div className="az-section">
-      <div className="az-container">
-        <Link to="/conferences" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: 'var(--az-space-6)', color: 'var(--az-primary)', fontWeight: 600 }}>
-          <ArrowLeft size={16} /> Back to Conferences
-        </Link>
+    <div className="az-conf-details-page">
+      {/* Breadcrumb Navigation */}
+      <section className="az-conf-details-breadcrumb-section">
+        <div className="az-container">
+          <nav aria-label="Breadcrumb" className="az-breadcrumb" style={{ margin: 0 }}>
+            <ol className="az-breadcrumb__list">
+              <li className="az-breadcrumb__item">
+                <Link to="/" className="az-breadcrumb__link">
+                  Home
+                </Link>
+              </li>
+              <li className="az-breadcrumb__separator" aria-hidden="true">
+                <ChevronRight size={14} />
+              </li>
+              <li className="az-breadcrumb__item">
+                <Link to="/conferences" className="az-breadcrumb__link">
+                  Conferences
+                </Link>
+              </li>
+              <li className="az-breadcrumb__separator" aria-hidden="true">
+                <ChevronRight size={14} />
+              </li>
+              <li className="az-breadcrumb__item">
+                <span className="az-breadcrumb__current" aria-current="page">
+                  {conference.title}
+                </span>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </section>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 'var(--az-space-8)' }}>
-          <div>
-            <div style={{ display: 'flex', gap: 'var(--az-space-2)', marginBottom: 'var(--az-space-3)' }}>
-              <Badge variant="primary">{conference.category}</Badge>
-              <Badge variant="success">Registration Open</Badge>
-            </div>
-            <h1>{conference.title}</h1>
-            <p className="az-body-lg" style={{ color: 'var(--az-muted)', marginBottom: 'var(--az-space-6)' }}>
-              {conference.description}
-            </p>
+      {/* Hero Banner */}
+      <ConferenceHero conference={conference} />
 
-            <div style={{ display: 'flex', gap: 'var(--az-space-6)', flexWrap: 'wrap', padding: 'var(--az-space-4)', background: 'var(--az-surface)', borderRadius: 'var(--az-radius-lg)', border: '1px solid var(--az-border)', marginBottom: 'var(--az-space-8)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--az-space-2)' }}>
-                <Calendar size={20} style={{ color: 'var(--az-primary)' }} />
-                <div>
-                  <div className="az-caption">Dates</div>
-                  <strong>{formatDate(conference.startDate)} – {formatDate(conference.endDate)}</strong>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--az-space-2)' }}>
-                <MapPin size={20} style={{ color: 'var(--az-primary)' }} />
-                <div>
-                  <div className="az-caption">Location</div>
-                  <strong>{conference.city}, {conference.country}</strong>
-                </div>
-              </div>
-            </div>
+      {/* Quick Info Grid */}
+      <ConferenceInfo conference={conference} />
 
-            <h3>Key Conference Tracks & Topics</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--az-space-3)', marginBlock: 'var(--az-space-4) var(--az-space-8)' }}>
-              {conference.topics?.map((topic) => (
-                <div key={topic} style={{ display: 'flex', alignItems: 'center', gap: 'var(--az-space-2)', padding: 'var(--az-space-3)', background: 'var(--az-surface)', borderRadius: 'var(--az-radius-md)', border: '1px solid var(--az-border)' }}>
-                  <CheckCircle2 size={16} style={{ color: 'var(--az-success)' }} />
-                  <span className="az-body-sm">{topic}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* Main 2-Column Layout */}
+      <section className="az-conf-details-content-section">
+        <div className="az-container">
+          <div className="az-conf-details-layout">
+            {/* Main Content Area */}
+            <main className="az-conf-details-layout__main" id="conference-content-main">
+              <AboutConference conference={conference} />
+              <ConferenceObjectives conference={conference} />
+              <ConferenceTopics conference={conference} />
+              <ImportantDates conference={conference} />
+              <RegistrationTypes conference={conference} />
+              <ConferenceSpeakers conference={conference} />
+              <ConferenceProgram conference={conference} />
+              <ConferenceCommittee conference={conference} />
+              <ConferenceVenue conference={conference} />
+              <AccommodationSection conference={conference} />
+              <ConferenceSponsors conference={conference} />
+              <ConferenceGallery conference={conference} />
+              <ConferenceFAQ conference={conference} />
+            </main>
 
-          <div>
-            <Card>
-              <CardContent>
-                <h3 style={{ marginBottom: 'var(--az-space-3)' }}>Registration</h3>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--az-navy)', marginBottom: 'var(--az-space-2)' }}>
-                  ${conference.price || 499} <span className="az-body-sm" style={{ fontWeight: 400, color: 'var(--az-muted)' }}>/ Standard Pass</span>
-                </div>
-                <p className="az-body-sm" style={{ color: 'var(--az-muted)', marginBottom: 'var(--az-space-6)' }}>
-                  Includes access to plenary sessions, workshop tracks, proceedings publication, and networking banquets.
-                </p>
-                <div style={{ display: 'grid', gap: 'var(--az-space-3)' }}>
-                  <Link to="/register" className="az-button az-button--primary az-button--full">
-                    Register for Conference
-                  </Link>
-                  <Link to="/login" className="az-button az-button--outline az-button--full">
-                    Submit Abstract
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Sticky Sidebar */}
+            <aside className="az-conf-details-layout__sidebar" aria-label="Conference Sidebar">
+              <RegistrationCard conference={conference} />
+            </aside>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Related Conferences */}
+      <RelatedConferences currentConference={conference} />
+
+      {/* Conversion Banner */}
+      <ConferenceCTA conference={conference} />
     </div>
   );
 }
+
+export default ConferenceDetails;

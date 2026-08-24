@@ -1,6 +1,6 @@
 import type { Conference } from '../types/conference';
 
-export const mockConferences: Conference[] = [
+const baseConferences: Conference[] = [
   {
     id: 'conf-001',
     slug: 'global-ai-summit-2027',
@@ -590,4 +590,273 @@ export const mockConferences: Conference[] = [
     price: 320,
   }
 ];
+
+function enrichConference(base: Conference): Conference {
+  const start = new Date(base.startDate);
+
+  // Deadlines relative to startDate
+  const absDead = new Date(start);
+  absDead.setDate(absDead.getDate() - 45);
+  const earlyDead = new Date(start);
+  earlyDead.setDate(earlyDead.getDate() - 30);
+  const regDead = new Date(start);
+  regDead.setDate(regDead.getDate() - 7);
+
+  const formatIso = (d: Date) => d.toISOString().split('T')[0];
+
+  const defaultObjectives = [
+    `Facilitate high-impact research dissemination in ${base.category} and interdisciplinary breakthroughs.`,
+    `Connect world-renowned scholars, research fellows, and industry executives worldwide.`,
+    `Provide peer-reviewed publication opportunities in indexed international proceedings.`,
+    `Foster collaborative industry-academia partnerships and global technology initiatives.`,
+    `Present emerging case studies, disruptive technologies, and ethical governance models.`,
+  ];
+
+  const basePrice = base.price || 499;
+
+  const defaultRegistrationTypes = [
+    {
+      id: 'reg-student',
+      title: 'Student Pass',
+      type: 'student',
+      price: Math.round(basePrice * 0.45),
+      description: 'For undergraduate and postgraduate students with valid institutional student ID.',
+      features: ['Access to all technical sessions', 'Digital conference proceedings', 'Lunch & refreshment breaks', 'Certificate of Participation'],
+    },
+    {
+      id: 'reg-academic',
+      title: 'Academic / Faculty',
+      type: 'academic',
+      price: Math.round(basePrice * 0.75),
+      description: 'For university faculty, professors, and non-profit educational researchers.',
+      features: ['Access to all technical tracks', 'Conference kit & proceedings', 'Networking banquet & lunches', 'Certificate of Presentation'],
+      isPopular: true,
+    },
+    {
+      id: 'reg-researcher',
+      title: 'Researcher / Author',
+      type: 'researcher',
+      price: basePrice,
+      description: 'For primary paper authors presenting accepted research abstracts.',
+      features: ['Author paper presentation slot', 'Indexed proceedings publication', 'Full access pass (all days)', 'Networking reception access'],
+    },
+    {
+      id: 'reg-professional',
+      title: 'Industry Professional',
+      type: 'professional',
+      price: Math.round(basePrice * 1.35),
+      description: 'For corporate leaders, R&D engineers, tech consultants, and executives.',
+      features: ['Full VIP session access', 'B2B matchmaking & networking dinners', 'Workshop & masterclass entry', 'Complete conference recordings'],
+    },
+    {
+      id: 'reg-speaker',
+      title: 'Invited Speaker',
+      type: 'speaker',
+      price: Math.round(basePrice * 0.35),
+      description: 'For registered panel speakers, keynote presenters, and track moderators.',
+      features: ['Speaker lounge access', 'Priority stage equipment', 'VIP speaker reception', 'Honorary award plaque'],
+    },
+  ];
+
+  const defaultSchedule = [
+    {
+      dayNumber: 1,
+      title: 'Inauguration, Keynotes & Foundations',
+      date: base.startDate,
+      sessions: [
+        { time: '08:30 AM - 09:30 AM', title: 'Delegate Registration & Welcome Breakfast', location: 'Grand Foyer', type: 'break' as const },
+        { time: '09:30 AM - 10:30 AM', title: `Opening Ceremony & Presidential Address in ${base.category}`, speaker: 'Conference General Chair', location: 'Plenary Hall', type: 'keynote' as const },
+        { time: '10:45 AM - 12:15 PM', title: 'Keynote Session: The Next Decade of Global Innovation', speaker: 'Dr. Sarah Johnson', speakerId: 'spk-001', location: 'Plenary Hall', type: 'keynote' as const },
+        { time: '12:30 PM - 01:30 PM', title: 'Networking Banquet & Exhibition Opening', location: 'Dining Hall', type: 'break' as const },
+        { time: '01:30 PM - 03:30 PM', title: 'Technical Track A: Modern Paradigms & Case Studies', location: 'Auditorium 1', type: 'track' as const, description: 'Peer-reviewed research paper presentations with interactive audience Q&A.' },
+        { time: '03:45 PM - 05:00 PM', title: 'Panel Discussion: Ethical Frontiers & Global Policies', location: 'Plenary Hall', type: 'panel' as const },
+      ],
+    },
+    {
+      dayNumber: 2,
+      title: 'Advanced Research Tracks & Workshops',
+      date: formatIso(new Date(start.getTime() + 86400000)),
+      sessions: [
+        { time: '09:00 AM - 10:30 AM', title: 'Plenary Session: Breakthroughs in Applied Methodology', speaker: 'Prof. Rajesh K. Varma', speakerId: 'spk-002', location: 'Plenary Hall', type: 'keynote' as const },
+        { time: '10:45 AM - 12:30 PM', title: 'Hands-on Technical Workshops & Live Demonstrations', location: 'Workshop Labs A & B', type: 'workshop' as const },
+        { time: '12:30 PM - 01:30 PM', title: 'Delegates Networking Luncheon', location: 'Dining Hall', type: 'break' as const },
+        { time: '01:30 PM - 04:00 PM', title: 'Poster Session & Interactive Research Exhibits', location: 'Exhibition Hall 2', type: 'poster' as const },
+        { time: '06:00 PM - 08:30 PM', title: 'Official Conference Gala Dinner & Cultural Evening', location: 'Terrace Garden', type: 'break' as const },
+      ],
+    },
+    {
+      dayNumber: 3,
+      title: 'Industry Applications & Concluding Sessions',
+      date: base.endDate,
+      sessions: [
+        { time: '09:30 AM - 11:00 AM', title: 'Special Session: Translating Research into Industry Scale', speaker: 'Dr. Marcus Sterling', speakerId: 'spk-005', location: 'Plenary Hall', type: 'keynote' as const },
+        { time: '11:15 AM - 12:45 PM', title: 'Best Paper Award Ceremony & Valedictory Session', location: 'Plenary Hall', type: 'keynote' as const },
+        { time: '01:00 PM - 02:00 PM', title: 'Farewell Lunch & Certificate Distribution', location: 'Dining Hall', type: 'break' as const },
+      ],
+    },
+  ];
+
+  const defaultCommittee = [
+    {
+      id: 'com-1',
+      name: 'Prof. David Alexander',
+      role: 'General Conference Chair',
+      designation: 'Dean of Research & Innovation',
+      organization: 'International Technology University',
+      country: base.country,
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      category: 'chair' as const,
+    },
+    {
+      id: 'com-2',
+      name: 'Dr. Priya Sharma',
+      role: 'Scientific Committee Co-Chair',
+      designation: 'Head of Advanced Systems',
+      organization: 'Institute of Advanced Science',
+      country: 'India',
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+      category: 'scientific' as const,
+    },
+    {
+      id: 'com-3',
+      name: 'Dr. Michael Chen',
+      role: 'Program Chair',
+      designation: 'Principal Scientist',
+      organization: 'Global Research Labs',
+      country: 'Singapore',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+      category: 'scientific' as const,
+    },
+    {
+      id: 'com-4',
+      name: 'Elena Weber',
+      role: 'Organizing Secretary',
+      designation: 'Director of Conferences',
+      organization: 'AZTech International Federation',
+      country: 'Germany',
+      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80',
+      category: 'organizing' as const,
+    },
+  ];
+
+  const defaultVenueDetails = {
+    name: base.location || `${base.city} International Convention Centre`,
+    address: base.venue || `Convention Boulevard, Sector 4, ${base.city}`,
+    city: base.city,
+    country: base.country,
+    postalCode: '500081',
+    description: `A state-of-the-art international convention center located in the heart of ${base.city}, featuring advanced audiovisual facilities, multiple plenary halls, and convenient airport connectivity.`,
+    amenities: [
+      'High-Speed Gigabit WiFi',
+      'Dual 4K Laser Projection',
+      'Simultaneous Translation Booths',
+      'Executive Dining & Banquet Hall',
+      'Dedicated On-Site Parking (1000+ slots)',
+      '100% Wheelchair & ADA Accessible',
+    ],
+  };
+
+  const defaultAccommodation = [
+    {
+      id: 'acc-1',
+      name: `${base.city} Grand Luxury Hotel & Suites`,
+      rating: 5,
+      distance: '0.3 km from venue (Adjacent)',
+      pricePerNight: '$140 / night',
+      address: `100 Convention Way, ${base.city}, ${base.country}`,
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
+    },
+    {
+      id: 'acc-2',
+      name: `Novotel & Suites ${base.city} Center`,
+      rating: 4,
+      distance: '1.2 km from venue',
+      pricePerNight: '$95 / night',
+      address: `45 City Center Avenue, ${base.city}, ${base.country}`,
+      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80',
+    },
+    {
+      id: 'acc-3',
+      name: `City View Premier Inn & Residencies`,
+      rating: 4,
+      distance: '2.5 km from venue',
+      pricePerNight: '$65 / night',
+      address: `12 Metro Station Road, ${base.city}, ${base.country}`,
+      image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80',
+    },
+  ];
+
+  const defaultSponsors = {
+    platinum: [
+      { id: 'sp-1', name: 'Google Cloud & DeepMind', tier: 'platinum' as const },
+      { id: 'sp-2', name: 'Microsoft Azure AI', tier: 'platinum' as const },
+    ],
+    gold: [
+      { id: 'sp-3', name: 'Intel Corporation', tier: 'gold' as const },
+      { id: 'sp-4', name: 'NVIDIA AI Systems', tier: 'gold' as const },
+      { id: 'sp-5', name: 'Amazon Web Services (AWS)', tier: 'gold' as const },
+    ],
+    silver: [
+      { id: 'sp-6', name: 'Springer Nature Academic', tier: 'silver' as const },
+      { id: 'sp-7', name: 'IEEE Computer Society', tier: 'silver' as const },
+      { id: 'sp-8', name: 'Elsevier Publishing', tier: 'silver' as const },
+    ],
+  };
+
+  const defaultGallery = [
+    'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=800&q=80',
+  ];
+
+  const defaultFaqs = [
+    {
+      question: 'Who is eligible to attend this conference?',
+      answer: `This conference welcomes international researchers, university professors, postgraduate and undergraduate students, R&D professionals, and industry executives interested in ${base.category}. Both presenting and listening delegates are welcome.`,
+    },
+    {
+      question: 'How do I submit an abstract or research paper?',
+      answer: 'You can submit your abstract online via our Submit Abstract portal. Submissions undergo a rigorous double-blind peer-review process conducted by our international Scientific Committee.',
+    },
+    {
+      question: 'What is included in my registration pass?',
+      answer: 'Your pass includes full access to all keynote sessions, parallel technical tracks, hands-on workshops, daily networking coffee breaks and lunches, the official conference kit, digital proceedings publication, and a verifiable Certificate of Participation.',
+    },
+    {
+      question: 'Is virtual / online participation supported?',
+      answer: 'Yes! Virtual presentation and live streaming access are supported for international authors and delegates unable to travel in person. Virtual presenters receive identical publication indexing and digital certificates.',
+    },
+    {
+      question: 'Will I receive an official Certificate of Participation / Presentation?',
+      answer: 'Yes. All registered attendees, oral presenters, and session chairs receive an officially accredited, digitally verifiable certificate with a unique verification ID issued by AZTech.',
+    },
+    {
+      question: 'What is the cancellation and refund policy?',
+      answer: 'Full refunds are available up to 30 days prior to the conference start date (less a 10% administrative fee). Registrations can also be transferred to a colleague or deferred to a future AZTech conference at no additional charge.',
+    },
+  ];
+
+  return {
+    ...base,
+    abstractDeadline: base.abstractDeadline || formatIso(absDead),
+    earlyRegistrationDeadline: base.earlyRegistrationDeadline || formatIso(earlyDead),
+    registrationDeadline: base.registrationDeadline || formatIso(regDead),
+    objectives: base.objectives || defaultObjectives,
+    registrationTypes: base.registrationTypes || defaultRegistrationTypes,
+    speakerIds: base.speakerIds || ['spk-001', 'spk-002', 'spk-003', 'spk-005'],
+    schedule: base.schedule || defaultSchedule,
+    committee: base.committee || defaultCommittee,
+    venueDetails: base.venueDetails || defaultVenueDetails,
+    accommodation: base.accommodation || defaultAccommodation,
+    sponsors: base.sponsors || defaultSponsors,
+    gallery: base.gallery || defaultGallery,
+    faqs: base.faqs || defaultFaqs,
+  };
+}
+
+export const mockConferences: Conference[] = baseConferences.map(enrichConference);
+
 

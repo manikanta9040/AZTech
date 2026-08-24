@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'About', path: '/about' },
   { label: 'Conferences', path: '/conferences' },
   { label: 'Speakers', path: '/speakers' },
+  { label: 'Blogs', path: '/blogs' },
   { label: 'Contact', path: '/contact' },
 ];
 

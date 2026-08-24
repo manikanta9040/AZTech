@@ -1,75 +1,184 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight, HelpCircle, ArrowRight, MessageSquare, Building, MapPin } from 'lucide-react';
 import { Badge } from '../../components/common/Badge';
 import { Card, CardContent } from '../../components/common/Card';
-import { Button } from '../../components/common/Button';
-import { Input } from '../../components/common/Input';
-import { Textarea } from '../../components/common/Textarea';
+import { ContactInfo } from '../../components/contact/ContactInfo';
+import { ContactForm } from '../../components/contact/ContactForm';
 
 export default function Contact() {
+  useEffect(() => {
+    document.title = 'Contact Us | AZTech — Global Conference Support';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        'content',
+        'Have a question, partnership opportunity or conference inquiry? Connect with the AZTech global conference organizing team.'
+      );
+    }
+  }, []);
+
   return (
-    <div className="az-section">
-      <div className="az-container">
-        <div style={{ maxWidth: '48rem', marginBottom: 'var(--az-space-8)' }}>
-          <Badge variant="primary">Get In Touch</Badge>
-          <h1 style={{ marginTop: 'var(--az-space-3)' }}>Contact AZTech Global Team</h1>
-          <p className="az-body-lg" style={{ color: 'var(--az-muted)' }}>
-            Have questions about upcoming conferences, sponsorship opportunities, or abstract submissions? We are here to help.
-          </p>
+    <div className="az-contact-page">
+      {/* 1. Page Header & Breadcrumbs */}
+      <header className="az-page-header" aria-labelledby="contact-page-title">
+        <div className="az-container">
+          <nav aria-label="Breadcrumb" className="az-breadcrumb">
+            <ol className="az-breadcrumb__list">
+              <li className="az-breadcrumb__item">
+                <Link to="/" className="az-breadcrumb__link">
+                  Home
+                </Link>
+              </li>
+              <li className="az-breadcrumb__separator" aria-hidden="true">
+                <ChevronRight size={14} />
+              </li>
+              <li className="az-breadcrumb__item">
+                <span className="az-breadcrumb__current" aria-current="page">
+                  Contact
+                </span>
+              </li>
+            </ol>
+          </nav>
         </div>
+      </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--az-space-8)' }}>
-          <Card>
-            <CardContent>
-              <h3 style={{ marginBottom: 'var(--az-space-4)' }}>Send Us a Message</h3>
-              <form onSubmit={(e) => { e.preventDefault(); alert('Message received. Our conference coordinator will get back to you shortly.'); }} style={{ display: 'grid', gap: 'var(--az-space-4)' }}>
-                <Input label="Full Name" placeholder="Dr. John Doe" required />
-                <Input label="Email Address" type="email" placeholder="john.doe@university.edu" required />
-                <Input label="Subject" placeholder="Inquiry regarding Conference Registration" required />
-                <Textarea label="Message" placeholder="Type your message or inquiry here..." required />
-                <Button type="submit" variant="primary">Send Message</Button>
-              </form>
-            </CardContent>
-          </Card>
+      {/* 2. Hero Section */}
+      <section className="az-contact-hero" aria-labelledby="contact-page-title">
+        <div className="az-container">
+          <div className="az-contact-hero__content">
+            <div className="az-contact-hero__badge">
+              <Badge variant="primary">
+                <MessageSquare size={13} style={{ marginRight: '6px' }} aria-hidden="true" />
+                Global Conference Secretariat
+              </Badge>
+            </div>
 
-          <div style={{ display: 'grid', gap: 'var(--az-space-6)', alignContent: 'start' }}>
+            <h1 id="contact-page-title" className="az-contact-hero__title">
+              Let&apos;s <span className="az-gradient-text">Connect</span>
+            </h1>
+
+            <p className="az-contact-hero__description az-body-lg">
+              Have a question, partnership opportunity or conference inquiry? Our team would love to hear from you.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Main Contact Section: Form + Contact Info */}
+      <section className="az-section az-contact-main-section">
+        <div className="az-container">
+          <div className="az-contact-layout-grid">
+            {/* Left: Contact Form */}
+            <div className="az-contact-form-column">
+              <ContactForm />
+            </div>
+
+            {/* Right: Contact Info Cards */}
+            <div className="az-contact-info-column">
+              <ContactInfo />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Office Information & Regional Consortia */}
+      <section className="az-section az-offices-section" style={{ background: 'var(--az-surface)', borderTop: '1px solid var(--az-border)', borderBottom: '1px solid var(--az-border)' }}>
+        <div className="az-container">
+          <div className="az-section-header az-section-header--center">
+            <Badge variant="primary">Global Presence</Badge>
+            <h2 className="az-h2" style={{ marginTop: 'var(--az-space-2)' }}>
+              AZTech International Locations
+            </h2>
+            <p className="az-body" style={{ color: 'var(--az-muted)', maxWidth: '40rem', marginInline: 'auto' }}>
+              Coordinating international academic summits across key scientific hubs in the Americas, Europe, and Asia-Pacific.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--az-space-6)' }}>
             <Card>
-              <CardContent style={{ display: 'flex', gap: 'var(--az-space-4)', alignItems: 'flex-start' }}>
-                <Mail size={24} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <h4 style={{ margin: 0 }}>Email Inquiries</h4>
-                  <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: '4px 0 0' }}>contact@aztechconferences.org</p>
-                  <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: 0 }}>submissions@aztechconferences.org</p>
+              <CardContent>
+                <div style={{ display: 'flex', gap: 'var(--az-space-3)', alignItems: 'center', marginBottom: 'var(--az-space-3)' }}>
+                  <Building size={20} style={{ color: 'var(--az-primary)' }} />
+                  <h3 style={{ margin: 0, fontSize: '1.125rem' }}>Hyderabad Hub (HQ)</h3>
+                </div>
+                <p className="az-body-sm" style={{ color: 'var(--az-muted)' }}>
+                  HITEC City Innovation Blvd, Madhapur<br />
+                  Hyderabad, Telangana 500081, India
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: 'var(--az-space-3)', color: 'var(--az-primary)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                  <MapPin size={14} />
+                  <span>Central Operations & Editorial</span>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
-              <CardContent style={{ display: 'flex', gap: 'var(--az-space-4)', alignItems: 'flex-start' }}>
-                <Phone size={24} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <h4 style={{ margin: 0 }}>Phone Assistance</h4>
-                  <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: '4px 0 0' }}>+1 (800) 555-AZTECH (Toll-free)</p>
-                  <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: 0 }}>+91 40 4567 8900 (Asia-Pacific)</p>
+              <CardContent>
+                <div style={{ display: 'flex', gap: 'var(--az-space-3)', alignItems: 'center', marginBottom: 'var(--az-space-3)' }}>
+                  <Building size={20} style={{ color: 'var(--az-primary)' }} />
+                  <h3 style={{ margin: 0, fontSize: '1.125rem' }}>San Francisco Hub</h3>
+                </div>
+                <p className="az-body-sm" style={{ color: 'var(--az-muted)' }}>
+                  Market Center Plaza, Suite 400<br />
+                  San Francisco, CA 94105, USA
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: 'var(--az-space-3)', color: 'var(--az-primary)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                  <MapPin size={14} />
+                  <span>Americas Summit Coordination</span>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
-              <CardContent style={{ display: 'flex', gap: 'var(--az-space-4)', alignItems: 'flex-start' }}>
-                <MapPin size={24} style={{ color: 'var(--az-primary)', flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <h4 style={{ margin: 0 }}>Global Headquarters</h4>
-                  <p className="az-body-sm" style={{ color: 'var(--az-muted)', margin: '4px 0 0' }}>
-                    AZTech Global Operations<br />
-                    100 Innovation Way, Suite 400<br />
-                    San Francisco, CA 94105, USA
-                  </p>
+              <CardContent>
+                <div style={{ display: 'flex', gap: 'var(--az-space-3)', alignItems: 'center', marginBottom: 'var(--az-space-3)' }}>
+                  <Building size={20} style={{ color: 'var(--az-primary)' }} />
+                  <h3 style={{ margin: 0, fontSize: '1.125rem' }}>London Hub</h3>
+                </div>
+                <p className="az-body-sm" style={{ color: 'var(--az-muted)' }}>
+                  Science Square, Holborn<br />
+                  London WC1V 6JS, United Kingdom
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: 'var(--az-space-3)', color: 'var(--az-primary)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                  <MapPin size={14} />
+                  <span>European Scientific Affairs</span>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 5. FAQ CTA */}
+      <section className="az-cta-section" aria-labelledby="contact-faq-cta-heading">
+        <div className="az-container">
+          <div className="az-cta-banner">
+            <div className="az-cta-banner__glow" aria-hidden="true" />
+            <div className="az-cta-banner__content">
+              <div className="az-cta-banner__badge">
+                <HelpCircle size={14} aria-hidden="true" />
+                <span>Frequently Asked Questions</span>
+              </div>
+              <h2 id="contact-faq-cta-heading" className="az-cta-banner__title">
+                Have More Questions?
+              </h2>
+              <p className="az-cta-banner__desc az-body-lg">
+                Find instant answers to common questions regarding registration, abstract formatting, peer review, and speaker accommodations.
+              </p>
+              <div className="az-cta-banner__actions">
+                <Link to="/faq" className="az-button az-button--primary az-button--lg">
+                  <span>Visit FAQ</span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </Link>
+                <Link to="/conferences" className="az-button az-button--outline az-button--lg az-cta-banner__btn-alt">
+                  <span>Explore Conferences</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

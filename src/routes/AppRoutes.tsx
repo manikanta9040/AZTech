@@ -6,10 +6,12 @@ import About from '../pages/public/About';
 import Conferences from '../pages/public/Conferences';
 import ConferenceDetails from '../pages/public/ConferenceDetails';
 import Speakers from '../pages/public/Speakers';
+import SpeakerDetails from '../pages/public/SpeakerDetails';
 import Contact from '../pages/public/Contact';
 import FAQ from '../pages/public/FAQ';
 import Gallery from '../pages/public/Gallery';
 import Blogs from '../pages/public/Blogs';
+import BlogDetails from '../pages/public/BlogDetails';
 import PrivacyPolicy from '../pages/public/PrivacyPolicy';
 import TermsOfUse from '../pages/public/TermsOfUse';
 import Sitemap from '../pages/public/Sitemap';
@@ -28,10 +30,12 @@ export function AppRoutes() {
           <Route path={ROUTES.conferences} element={<Conferences />} />
           <Route path={ROUTES.conferenceDetails} element={<ConferenceDetails />} />
           <Route path={ROUTES.speakers} element={<Speakers />} />
+          <Route path={ROUTES.speakerDetails} element={<SpeakerDetails />} />
           <Route path={ROUTES.contact} element={<Contact />} />
           <Route path={ROUTES.faq} element={<FAQ />} />
           <Route path={ROUTES.gallery} element={<Gallery />} />
           <Route path={ROUTES.blogs} element={<Blogs />} />
+          <Route path={ROUTES.blogDetails} element={<BlogDetails />} />
           <Route path={ROUTES.privacyPolicy} element={<PrivacyPolicy />} />
           <Route path={ROUTES.terms} element={<TermsOfUse />} />
           <Route path={ROUTES.sitemap} element={<Sitemap />} />

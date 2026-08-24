@@ -1,0 +1,11 @@
+export { SpeakerHero } from './SpeakerHero';
+export { SpeakerBiography } from './SpeakerBiography';
+export { SpeakerExpertise } from './SpeakerExpertise';
+export { SpeakerExperience } from './SpeakerExperience';
+export { SpeakerConferences } from './SpeakerConferences';
+export { SpeakerSessions } from './SpeakerSessions';
+export { SpeakerTopics } from './SpeakerTopics';
+export { SpeakerSocialLinks } from './SpeakerSocialLinks';
+export { RelatedSpeakers } from './RelatedSpeakers';
+export { SpeakerCTA } from './SpeakerCTA';
+export { SpeakerNotFound } from './SpeakerNotFound';

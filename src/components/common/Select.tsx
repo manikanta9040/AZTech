@@ -1,0 +1,5 @@
+import { useId, type SelectHTMLAttributes } from 'react'
+export interface SelectOption { value: string; label: string }
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> { label?: string; options: SelectOption[]; placeholder?: string; error?: string }
+export function Select({ id, label, options, placeholder, error, required, className = '', ...props }: SelectProps) { const generatedId = useId(); const selectId = id ?? generatedId; return <div className={`az-field ${error ? 'az-field--error' : ''}`}><label className="az-label" htmlFor={selectId}>{label}{required && <span className="az-required"> *</span>}</label><select id={selectId} required={required} aria-invalid={Boolean(error)} className={`az-select ${className}`} {...props}>{placeholder && <option value="" disabled>{placeholder}</option>}{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{error && <span className="az-error">{error}</span>}</div> }
+export default Select

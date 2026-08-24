@@ -1,0 +1,4 @@
+import { useId, type InputHTMLAttributes } from 'react'
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> { label?: string; error?: string; helperText?: string }
+export function Input({ id, label, error, helperText, required, className = '', ...props }: InputProps) { const generatedId = useId(); const inputId = id ?? generatedId; return <div className={`az-field ${error ? 'az-field--error' : ''}`}><label className="az-label" htmlFor={inputId}>{label}{required && <span className="az-required"> *</span>}</label><input id={inputId} required={required} aria-invalid={Boolean(error)} aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined} className={`az-input ${className}`} {...props}/>{error ? <span className="az-error" id={`${inputId}-error`}>{error}</span> : helperText && <span className="az-helper" id={`${inputId}-helper`}>{helperText}</span>}</div> }
+export default Input

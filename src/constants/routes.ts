@@ -1,0 +1,18 @@
+export const ROUTES = {
+  home: '/',
+  about: '/about',
+  conferences: '/conferences',
+  conferenceDetails: '/conferences/:slug',
+  speakers: '/speakers',
+  contact: '/contact',
+  faq: '/faq',
+  gallery: '/gallery',
+  blogs: '/blogs',
+  privacyPolicy: '/privacy-policy',
+  terms: '/terms',
+  sitemap: '/sitemap',
+  login: '/login',
+  register: '/register',
+  userDashboard: '/portal',
+  adminDashboard: '/admin',
+} as const;

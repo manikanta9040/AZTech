@@ -13,6 +13,8 @@ export interface BlogPost {
   readingTime: number; // minutes
   tags: string[];
   featured?: boolean;
+  status?: 'PUBLISHED' | 'DRAFT';
+  views?: number;
 }
 
 export const BLOG_CATEGORIES = [

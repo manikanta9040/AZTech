@@ -1,0 +1,88 @@
+import type { AdminStatItem, ConferenceCategoryStat, RegistrationGrowthPoint } from '../types/admin'
+
+export const mockAdminStats: AdminStatItem[] = [
+  {
+    id: 'stat-users',
+    title: 'Total Users',
+    value: '12,540',
+    rawNumber: 12540,
+    change: '+12.4%',
+    trend: 'up',
+    subtitle: 'from last month',
+    icon: 'Users',
+  },
+  {
+    id: 'stat-conferences',
+    title: 'Total Conferences',
+    value: '248',
+    rawNumber: 248,
+    change: '+8 active',
+    trend: 'up',
+    subtitle: 'across 42 countries',
+    icon: 'Calendar',
+  },
+  {
+    id: 'stat-speakers',
+    title: 'Total Speakers',
+    value: '840',
+    rawNumber: 840,
+    change: '+35 new',
+    trend: 'up',
+    subtitle: 'distinguished experts',
+    icon: 'Mic',
+  },
+  {
+    id: 'stat-registrations',
+    title: 'Total Registrations',
+    value: '8,920',
+    rawNumber: 8920,
+    change: '+18.2%',
+    trend: 'up',
+    subtitle: 'from last month',
+    icon: 'Ticket',
+  },
+  {
+    id: 'stat-abstracts',
+    title: 'Abstract Submissions',
+    value: '1,420',
+    rawNumber: 1420,
+    change: '42 pending',
+    trend: 'neutral',
+    subtitle: 'peer review queue',
+    icon: 'FileText',
+  },
+  {
+    id: 'stat-revenue',
+    title: 'Revenue',
+    value: '₹24,50,000',
+    rawNumber: 2450000,
+    change: '+22.5%',
+    trend: 'up',
+    subtitle: 'vs previous quarter',
+    icon: 'TrendingUp',
+  },
+]
+
+export const mockRegistrationGrowth: RegistrationGrowthPoint[] = [
+  { month: 'Jan', registrations: 420, abstracts: 85, revenue: 145000 },
+  { month: 'Feb', registrations: 530, abstracts: 98, revenue: 182000 },
+  { month: 'Mar', registrations: 680, abstracts: 124, revenue: 235000 },
+  { month: 'Apr', registrations: 790, abstracts: 142, revenue: 275000 },
+  { month: 'May', registrations: 910, abstracts: 165, revenue: 310000 },
+  { month: 'Jun', registrations: 840, abstracts: 150, revenue: 290000 },
+  { month: 'Jul', registrations: 1050, abstracts: 190, revenue: 365000 },
+  { month: 'Aug', registrations: 1220, abstracts: 215, revenue: 420000 },
+  { month: 'Sep', registrations: 1140, abstracts: 180, revenue: 395000 },
+  { month: 'Oct', registrations: 1380, abstracts: 240, revenue: 480000 },
+  { month: 'Nov', registrations: 1490, abstracts: 260, revenue: 520000 },
+  { month: 'Dec', registrations: 1620, abstracts: 290, revenue: 565000 },
+]
+
+export const mockCategoryStats: ConferenceCategoryStat[] = [
+  { name: 'Artificial Intelligence', count: 68, percentage: 27 },
+  { name: 'Healthcare & Biotech', count: 52, percentage: 21 },
+  { name: 'Sustainable Engineering', count: 44, percentage: 18 },
+  { name: 'Cybersecurity & Cloud', count: 36, percentage: 15 },
+  { name: 'Data Science & Quantum', count: 28, percentage: 11 },
+  { name: 'Robotics & Automation', count: 20, percentage: 8 },
+]

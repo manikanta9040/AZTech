@@ -1,6 +1,6 @@
 import type { Conference } from '../types/conference';
 
-const baseConferences: Conference[] = [
+export const baseConferences: Conference[] = [
   {
     id: 'conf-001',
     slug: 'global-ai-summit-2027',

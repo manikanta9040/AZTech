@@ -8,5 +8,5 @@ export function AdminRoute({ children }: PropsWithChildren) {
   const { user, isAuthenticated, isLoading } = useAuth()
   if (isLoading) return <PageLoader />
   if (!isAuthenticated) return <Navigate to={ROUTES.adminLogin} replace />
-  return user?.role === 'ADMIN' ? children : <Navigate to={ROUTES.userDashboard} replace />
+  return (user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') ? children : <Navigate to={ROUTES.userDashboard} replace />
 }

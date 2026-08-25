@@ -8,6 +8,9 @@ export interface GalleryItem {
   conferenceName?: string;
   location?: string;
   year?: string;
+  date?: string;
+  featured?: boolean;
+  status?: 'PUBLISHED' | 'DRAFT';
 }
 
 export const GALLERY_CATEGORIES = [

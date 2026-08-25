@@ -4,6 +4,8 @@ export interface FAQItem {
   answer: string;
   category: 'General' | 'Registration' | 'Abstract Submission' | 'Speakers' | 'Payments' | 'Certificates' | 'Conferences';
   tags?: string[];
+  order?: number;
+  status?: 'PUBLISHED' | 'DRAFT';
 }
 
 export const FAQ_CATEGORIES = [
